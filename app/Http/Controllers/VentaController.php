@@ -7,59 +7,59 @@ use Illuminate\Http\Request;
 
 class VentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $ventas = Venta::all();
+        return response()->json(['ventas' => $ventas], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|string',
+            'clientes_id' => 'required|integer|exists:clientes,id',
+            'trabajadors_id' => 'required|integer|exists:trabajadors,id',
+            'fecha' => 'required|date',
+            'tipo_comprobante' => 'required|integer',
+            'serie' => 'required|integer',
+            'correlativo' => 'required|string',
+            'igv' => 'required|string',
+            'estado' => 'required|string',
+        ]);
+
+        $venta = Venta::create($request->all());
+
+        return response()->json(['venta' => $venta], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Venta $venta)
     {
-        //
+        return response()->json(['venta' => $venta], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Venta $venta)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Venta $venta)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|string',
+            'clientes_id' => 'required|integer|exists:clientes,id',
+            'trabajadors_id' => 'required|integer|exists:trabajadors,id',
+            'fecha' => 'required|date',
+            'tipo_comprobante' => 'required|integer',
+            'serie' => 'required|integer',
+            'correlativo' => 'required|string',
+            'igv' => 'required|string',
+            'estado' => 'required|string',
+        ]);
+
+        $venta->update($request->all());
+
+        return response()->json(['venta' => $venta], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Venta $venta)
     {
-        //
+        $venta->delete();
+
+        return response()->json(null, 204);
     }
 }

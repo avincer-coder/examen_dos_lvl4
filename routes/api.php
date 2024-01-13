@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DetalleIngresoController;
+use App\Http\Controllers\DetalleVentaController;
+use App\Http\Controllers\TrabajadorController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('articulos', ArticuloController::class);
+Route::apiResource('detalle-ingresos', DetalleIngresoController::class);
+Route::apiResource('clientes', ClienteController::class);
+Route::apiResource('trabajadores', TrabajadorController::class);
+Route::apiResource('ventas', VentaController::class);
+Route::apiResource('detalle-ventas', DetalleVentaController::class);

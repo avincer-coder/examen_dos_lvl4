@@ -7,59 +7,51 @@ use Illuminate\Http\Request;
 
 class DetalleVentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $detallesVentas = Detalle_venta::all();
+        return response()->json(['detallesVentas' => $detallesVentas], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'ventas_id' => 'required|integer|exists:ventas,id',
+            'detalle_ingresos_id' => 'required|integer|exists:detalle_ingresos,id',
+            'cantidad' => 'required|integer',
+            'precio_venta' => 'required|integer',
+            'descuento' => 'required|integer',
+        ]);
+
+        $detalleVenta = Detalle_venta::create($request->all());
+
+        return response()->json(['detalleVenta' => $detalleVenta], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Detalle_venta $detalle_venta)
+    public function show(Detalle_venta $detalleVenta)
     {
-        //
+        return response()->json(['detalleVenta' => $detalleVenta], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Detalle_venta $detalle_venta)
+    public function update(Request $request, Detalle_venta $detalleVenta)
     {
-        //
+        $request->validate([
+            'ventas_id' => 'required|integer|exists:ventas,id',
+            'detalle_ingresos_id' => 'required|integer|exists:detalle_ingresos,id',
+            'cantidad' => 'required|integer',
+            'precio_venta' => 'required|integer',
+            'descuento' => 'required|integer',
+        ]);
+
+        $detalleVenta->update($request->all());
+
+        return response()->json(['detalleVenta' => $detalleVenta], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Detalle_venta $detalle_venta)
+    public function destroy(Detalle_venta $detalleVenta)
     {
-        //
-    }
+        $detalleVenta->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Detalle_venta $detalle_venta)
-    {
-        //
+        return response()->json(null, 204);
     }
 }
